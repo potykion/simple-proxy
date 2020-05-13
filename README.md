@@ -7,7 +7,7 @@ Service for bypass denied resources like this
 ## Usage
 
 ```
-http://127.0.0.1:8000/?url={URL}&key={KEY}
+https://potyk-simple-proxy.herokuapp.com/?url={URL}&key={KEY}
 ```
 
 ## Dev 
