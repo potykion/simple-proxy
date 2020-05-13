@@ -17,4 +17,4 @@ async def proxy(url: str, key: str):
         return "Access denied"
 
     async with httpx.AsyncClient() as client:
-        return (await client.get(url)).read()
+        return (await client.get(url)).text
