@@ -1,6 +1,6 @@
 # simple-proxy
 
-Service for bypass denied resources like this
+Service for bypassing denied resources like this
 
 ![err](./err.png)
 
