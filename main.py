@@ -23,8 +23,4 @@ async def proxy(url: str, key: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--port', default=8000, type=int)
-    args = parser.parse_args()
-
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
+    uvicorn.run(app, host="0.0.0.0", port=os.getenv("PORT", 8000))
