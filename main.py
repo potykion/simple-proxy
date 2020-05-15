@@ -14,8 +14,8 @@ KEY = os.environ["KEY"]
 app = FastAPI()
 
 
-@app.get("/", response_class=HTMLResponse)
-async def proxy(key: str, url: str, request: Request, replace_relative=False):
+@app.get("/{key}/proxy/{url:path}", response_class=HTMLResponse)
+async def proxy(key: str, url: str):
     """Read and display content of given {url}, replace relative links if {replace_relative}"""
     if key != KEY:
         return "Access denied"
@@ -23,12 +23,21 @@ async def proxy(key: str, url: str, request: Request, replace_relative=False):
     async with httpx.AsyncClient() as client:
         text = (await client.get(url)).text
 
-    if replace_relative:
-        text = replace_relative_urls(
-            text,
-            ProxyUrl(str(request.base_url), key=key, url_to_proxy=url),
-        )
+    return text
 
+
+@app.get("/{key}/proxy-full/{url:path}", response_class=HTMLResponse)
+async def proxy_full(key: str, url: str, request: Request):
+    if key != KEY:
+        return "Access denied"
+
+    async with httpx.AsyncClient() as client:
+        text = (await client.get(url)).text
+
+    text = replace_relative_urls(
+        text,
+        ProxyUrl(str(request.base_url), key=key, url_to_proxy=url),
+    )
     return text
 
 

@@ -1,15 +1,16 @@
 import re
-from dataclasses import dataclass
-from urllib.parse import urlparse
+from dataclasses import dataclass, asdict
+from typing import List, Dict
+from urllib.parse import urlparse, urljoin
 
 
 @dataclass
 class ProxyUrl:
     """
     >>> ProxyUrl("http://localhost:8000/", "1488", "https://google.com").url
-    'http://localhost:8000/?key=1488&url=https://google.com'
+    'http://localhost:8000/1488/proxy/https://google.com'
     >>> ProxyUrl("http://localhost:8000/", "1488", "https://google.com/search").url_with_base_url
-    'http://localhost:8000/?key=1488&url=https://google.com'
+    'http://localhost:8000/1488/proxy/https://google.com'
     """
     base_url: str
     key: str
@@ -17,11 +18,11 @@ class ProxyUrl:
 
     @property
     def url(self) -> str:
-        return f"{self.base_url}?key={self.key}&url={self.url_to_proxy}"
+        return f"{urljoin(self.base_url, self.key)}/proxy/{self.url_to_proxy}"
 
     @property
     def url_with_base_url(self) -> str:
-        return f"{self.base_url}?key={self.key}&url={extract_base_url(self.url_to_proxy)}"
+        return ProxyUrl(**{**asdict(self), "url_to_proxy": extract_base_url(self.url_to_proxy)}).url
 
 
 def extract_base_url(url: str) -> str:
