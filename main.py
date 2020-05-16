@@ -16,6 +16,7 @@ app = FastAPI()
 
 @app.get(ProxyUrl.path)
 async def proxy(key: str, url: str):
+    """Get content of given {url}"""
     if key != KEY:
         return "Access denied"
 
@@ -25,6 +26,7 @@ async def proxy(key: str, url: str):
 
 @app.get("/html", response_class=HTMLResponse)
 async def html_proxy(key: str, url: str, request: Request):
+    """Get content of given html {url} with relative urls replace"""
     if key != KEY:
         return "Access denied"
 

@@ -12,6 +12,14 @@ Service for bypassing denied resources like this
 https://potyk-simple-proxy.herokuapp.com/?url={URL}&key={KEY}
 ```
 
+- **url** param should be urlencoded 
+
+#### Html page with relative urls replaced
+
+```
+https://potyk-simple-proxy.herokuapp.com/html?url={URL}&key={KEY}
+```
+
 ## Dev 
 
 ### Install
