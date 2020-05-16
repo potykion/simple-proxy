@@ -23,7 +23,7 @@ async def proxy(key: str, url: str):
         return Response((await client.get(url)).read())
 
 
-@app.get("/html-proxy", response_class=HTMLResponse)
+@app.get("/html", response_class=HTMLResponse)
 async def html_proxy(key: str, url: str, request: Request):
     if key != KEY:
         return "Access denied"
