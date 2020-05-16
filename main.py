@@ -14,12 +14,8 @@ KEY = os.environ["KEY"]
 app = FastAPI()
 
 
-# https://fastapi.tiangolo.com/tutorial/path-params/#path-convertor
-# https://fastapi.tiangolo.com/advanced/custom-response/
-@app.get("/{key}/proxy/{url:path}")
+@app.get(ProxyUrl.path)
 async def proxy(key: str, url: str):
-    # todo rewrite
-    """Read and display content of given {url}, replace relative links if {replace_relative}"""
     if key != KEY:
         return "Access denied"
 
@@ -27,8 +23,8 @@ async def proxy(key: str, url: str):
         return Response((await client.get(url)).read())
 
 
-@app.get("/{key}/proxy-full/{url:path}", response_class=HTMLResponse)
-async def proxy_full(key: str, url: str, request: Request):
+@app.get("/html-proxy", response_class=HTMLResponse)
+async def html_proxy(key: str, url: str, request: Request):
     if key != KEY:
         return "Access denied"
 
